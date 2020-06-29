@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-
+//mysql://b6a7d0102af6bf:85bc1788@us-cdbr-east-02.cleardb.com/heroku_756e1ae047aecbe?reconnect=true
 $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
 $host = $url["host"];
