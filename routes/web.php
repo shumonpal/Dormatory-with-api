@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Temparature;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +18,15 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
-Route::get('/worldmeter', function () {
+// Route::get('/worldmeter', function () {
 
-    $crawler = Goutte::request('GET', 'https://www.worldometers.info/coronavirus/');
+//     $crawler = Goutte::request('GET', 'https://www.worldometers.info/coronavirus/');
 
-    $crawler->filter('.main_table_countries_div')->each(function ($node) {
+//     $crawler->filter('.main_table_countries_div')->each(function ($node) {
 
-        print_r($node->html());
-    });
-});
+//         print_r($node->html());
+//     });
+// });
 
 Route::post('/registration', 'UserController@store')->name('registration');
 

@@ -10,11 +10,13 @@ class PeopleController extends VoyagerBaseController
 {
     public function peopleByRoom(Request $request)
     {
+        //return $request->data;
 
+        $data = explode('-', $request->data);
         $people = People::where([
             ['user_id', auth()->user()->id],
-            ['room_id', $request->room_id],
-        ])->get();
+            [$data[0], (int) $data[1]],
+        ])->with('company', 'room')->get();
         return view('ajax.people.people-by-room', compact('people'));
     }
 

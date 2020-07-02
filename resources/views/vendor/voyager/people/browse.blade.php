@@ -8,8 +8,8 @@
         <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
     </h1>
     @can('add', app($dataType->model_name))
-    <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
-        <i class="voyager-plus"></i> <span>{{ __('voyager::generic.add_new') }}</span>
+    <a href="{{ route('voyager.'.$dataType->slug.'.index') }}" class="btn btn-success btn-add-new">
+        <i class="voyager-list"></i> <span>Go to List</span>
     </a>
     @endcan
     @can('delete', app($dataType->model_name))
@@ -43,11 +43,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-bordered" style="margin-bottom: 0;">
+
                 <div class="panel-body custom-panel-body">
+
+
                     <div class="panel-header">
-                        <div class="form-group">
-                            <label for="room_id">Select Room</label>
-                            <select name="room_id" class="select2 get_data_by_change"
+                        <div class="form-group col-md-5">
+                            <label for="room_id">Search by Room</label>
+                            <select data-name="room_id" class="select2 get_data_by_change"
                                 data-href="{{route('people.by-room')}}">
                                 <option value="">Select Room</option>
                                 @foreach(auth()->user()->rooms as $room)
@@ -55,7 +58,17 @@
                                 @endforeach
                             </select>
                         </div>
-                        </form>
+                        <div class="form-group col-md-5">
+                            <label for="company_id">Search by Company</label>
+                            <select data-name="company_id" class="select2 get_data_by_change"
+                                data-href="{{route('people.by-room')}}">
+                                <option value="">Select Room</option>
+                                @foreach(auth()->user()->companies as $company)
+                                <option value="{{$company->id}}">{{$company->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- </form> --}}
                     </div>
                 </div>
             </div>

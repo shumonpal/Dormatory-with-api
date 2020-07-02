@@ -14,6 +14,11 @@ class Temparature extends Model
         return $this->belongsTo('\App\Models\People', 'people_id');
     }
 
+    public function room()
+    {
+        return $this->belongsTo('\App\Models\Room', 'room_id');
+    }
+
     protected static function booted()
     {
         static::addGlobalScope('temparetureByUser', function (Builder $builder) {

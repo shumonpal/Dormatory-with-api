@@ -28,6 +28,7 @@ class TemparatureController extends VoyagerBaseController
         $errors = Validator::make($request->all(), [
             'room_id' => 'required',
             'created_at' => 'required',
+            'period' => 'required',
         ]);
         if ($errors->fails()) {
             return response()->json([
@@ -39,29 +40,59 @@ class TemparatureController extends VoyagerBaseController
             ['room_id', $request->room_id],
         ])->get();
         $date = $request->created_at;
-        return view('ajax.temp.add', compact('records', 'date'));
+        $period = $request->period;
+        return view('ajax.temp.add', compact('records', 'date', 'period'));
     }
 
     public function store(Request $request)
     {
-        $records = Temparature::where([
-            ['user_id', auth()->user()->id],
-            ['room_id', $request->room_id],
-            ['people_id', $request->people_id],
-        ])->whereDate('created_at', $request->created_at)->get();
+        // $records = Temparature::where([
+        //     ['user_id', auth()->user()->id],
+        //     ['room_id', $request->room_id],
+        //     ['people_id', $request->people_id],
+        // ])->whereDate('created_at', $request->created_at)->get();
 
-        if ($records->count() > 0) {
-            if ($request->has('morning')) {
-                auth()->user()->temparatures()->update([
-                    'morning' => $request->morning,
-                ]);
-            } elseif ($request->has('evenning')) {
-                auth()->user()->temparatures()->update([
-                    'evenning' => $request->evenning,
-                ]);
-            }
+        // if ($records->count() > 0) {
+        //     if ($request->has('morning')) {
+        //         auth()->user()->temparatures()->update([
+        //             'morning' => $request->morning,
+        //         ]);
+        //     } elseif ($request->has('evenning')) {
+        //         auth()->user()->temparatures()->update([
+        //             'evenning' => $request->evenning,
+        //         ]);
+        //     }
+        // } else {
+        //     auth()->user()->temparatures()->create($request->all());
+        // }
+        if ($request->has('morning')) {
+            Temparature::updateOrCreate([
+                'user_id' => auth()->user()->id,
+                'room_id' => $request->room_id,
+                'people_id' => $request->people_id,
+                'created_at' => $request->created_at
+            ], [
+                'morning' => $request->morning
+            ]);
+            return response()->json([
+                'message' => "Record added"
+            ]);
+        } elseif ($request->has('evenning')) {
+            Temparature::updateOrCreate([
+                'user_id' => auth()->user()->id,
+                'room_id' => $request->room_id,
+                'people_id' => $request->people_id,
+                'created_at' => $request->created_at
+            ], [
+                'evenning' => $request->evenning
+            ]);
+            return response()->json([
+                'message' => "Record added"
+            ]);
         } else {
-            auth()->user()->temparatures()->create($request->all());
+            return response()->json([
+                'message' => "Empty Value can not be added"
+            ]);
         }
     }
 }

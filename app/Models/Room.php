@@ -17,4 +17,9 @@ class Room extends Model
             $builder->where('user_id', auth()->user()->id);
         });
     }
+
+    public function people()
+    {
+        return $this->hasMany('App\Models\People', 'room_id');
+    }
 }
