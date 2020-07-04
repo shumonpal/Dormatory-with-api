@@ -178,7 +178,6 @@ return [
 
         Weidner\Goutte\GoutteServiceProvider::class,
 
-        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 
