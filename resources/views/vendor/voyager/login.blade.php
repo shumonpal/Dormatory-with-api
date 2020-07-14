@@ -13,63 +13,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
     <link rel="stylesheet" href="{{ voyager_asset('css/rtl.css') }}">
     @endif
+    @php
+        $body_bg = Voyager::setting("admin.bg_color", "#FFFFFF");
+        $body_login_sidebar_border_top = config('voyager.primary_color', '#22A7F0');
+        $registrationContainer_display = session('regi_failed') ? 'block': 'none';
+    @endphp
     <style>
+        
         body {
             background-image:url('{{ Voyager::image( Voyager::setting("admin.bg_image"), voyager_asset("images/bg.jpg") ) }}');
 
-            background-color: {
-                    {
-                    Voyager: :setting("admin.bg_color", "#FFFFFF")
-                }
-            }
-
-            ;
+            background-color: {{$body_bg}};
         }
 
         body.login .login-sidebar {
-            border-top:5px solid {
-                    {
-                    config('voyager.primary_color', '#22A7F0')
-                }
-            }
-
-            ;
+            border-top:5px solid {{$body_login_sidebar_border_top}};
         }
 
         @media (max-width: 767px) {
             body.login .login-sidebar {
                 border-top: 0px !important;
 
-                border-left:5px solid {
-                        {
-                        config('voyager.primary_color', '#22A7F0')
-                    }
-                }
-
-                ;
+                border-left:5px solid {{$body_login_sidebar_border_top}};
             }
         }
 
         body.login .form-group-default.focused {
-            border-color: {
-                    {
-                    config('voyager.primary_color', '#22A7F0')
-                }
-            }
-
-            ;
+            border-color: {{$body_login_sidebar_border_top}};;
         }
 
         .login-button,
         .bar:before,
         .bar:after {
-            background: {
-                    {
-                    config('voyager.primary_color', '#22A7F0')
-                }
-            }
-
-            ;
+            background: {{$body_login_sidebar_border_top}};
         }
 
         .remember-me-text {
@@ -84,13 +60,7 @@
             top: 25%;
             margin-top: -150px;
 
-            display: {
-                    {
-                    session('regi_failed') ? 'block': 'none'
-                }
-            }
-
-            ;
+            display: {{$registrationContainer_display}};
         }
 
         #registrationContainer input {
