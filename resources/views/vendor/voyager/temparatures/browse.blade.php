@@ -42,12 +42,12 @@
     @include('voyager::alerts')
     <div class="row">
         <div class="col-md-12">
+            @if (request()->query('people') == 'high-temp')
             <div class="panel panel-bordered">
-                @if (request()->query('people') == 'high-temp')
                 <div class="panel-header" style="margin: 20px 0 0 20px;">
                     <h4>People who have high temmparature</h4>
                 </div>
-                <div class="panel-body custom-panel-body">
+                <div class="panel-body">
                     @php
                     $temp = \App\Models\Temparature::query();
                     $peopleM = $temp->where('morning', '>', 37.3)->whereDate('created_at', today())->get();
@@ -86,9 +86,11 @@
                         </table>
                     </div>
                 </div>
-                @else
-                <div class="panel-header">
-                    <form action="{{route('temparatures.record')}}" method="get">
+            </div>
+            @else
+            <form action="{{route('temparatures.record')}}" method="get">
+                <div class="panel panel-bordered">
+                    <div class="panel-body">
                         <div class="form-group col-md-5">
                             <label for="room_id">Select Room</label>
                             <select name="room_id" class="select2">
@@ -104,19 +106,16 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for=""></label>
-                            <input type="Submit" class="form-control btn btn-info get_data_by_form_submit"
-                                value="Show People">
+                            <input type="Submit" class="form-control btn btn-info get_data_by_form_submit" value="Show">
                         </div>
-                    </form>
+                    </div>
+                    <div class="panel-body ajax-data"></div>
                 </div>
-                @endif
-            </div>
+            </form>
+            @endif
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 ajax-data">
-    </div>
 </div>
 </div>
 

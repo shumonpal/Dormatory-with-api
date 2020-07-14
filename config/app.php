@@ -178,6 +178,8 @@ return [
 
         Weidner\Goutte\GoutteServiceProvider::class,
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
 
     ],
 
@@ -232,6 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Goutte' => Weidner\Goutte\GoutteFacade::class,
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

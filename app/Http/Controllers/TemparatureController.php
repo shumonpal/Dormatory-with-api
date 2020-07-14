@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Temparature;
 use App\Models\People;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
+use PDF;
 
 class TemparatureController extends VoyagerBaseController
 {
@@ -17,7 +19,12 @@ class TemparatureController extends VoyagerBaseController
         $records = Temparature::where([
             ['user_id', auth()->user()->id],
             ['room_id', $request->room_id],
-        ])->whereDate('created_at', $request->created_at)->get();
+        ])->whereDate('created_at', $request->created_at)->with('people')->get();
+        if (!$request->expectsJson()) {
+            $room = Room::where('id', $request->room_id)->first()->value('room_no');
+            $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
+            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
+        }
         return view('ajax.temp.record', compact('records'));
     }
 
@@ -30,6 +37,18 @@ class TemparatureController extends VoyagerBaseController
             'created_at' => 'required',
             'period' => 'required',
         ]);
+        if (!$request->expectsJson()) {
+            if ($errors->fails()) {
+                return back()->withErrors($errors);
+            }
+            $records = Temparature::where([
+                ['user_id', auth()->user()->id],
+                ['room_id', $request->room_id],
+            ])->whereDate('created_at', $request->created_at)->with('people')->get();
+            $room = Room::where('id', $request->room_id)->first()->value('room_no');
+            $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
+            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
+        }
         if ($errors->fails()) {
             return response()->json([
                 'errors' => 'Select all the fields.'
@@ -39,6 +58,17 @@ class TemparatureController extends VoyagerBaseController
             ['user_id', auth()->user()->id],
             ['room_id', $request->room_id],
         ])->get();
+
+        if (!$request->expectsJson()) {
+            $records = Temparature::where([
+                ['user_id', auth()->user()->id],
+                ['room_id', $request->room_id],
+            ])->whereDate('created_at', $request->created_at)->with('people')->get();
+            $room = Room::where('id', $request->room_id)->first()->value('room_no');
+            $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
+            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
+        }
+
         $date = $request->created_at;
         $period = $request->period;
         return view('ajax.temp.add', compact('records', 'date', 'period'));
@@ -46,25 +76,7 @@ class TemparatureController extends VoyagerBaseController
 
     public function store(Request $request)
     {
-        // $records = Temparature::where([
-        //     ['user_id', auth()->user()->id],
-        //     ['room_id', $request->room_id],
-        //     ['people_id', $request->people_id],
-        // ])->whereDate('created_at', $request->created_at)->get();
 
-        // if ($records->count() > 0) {
-        //     if ($request->has('morning')) {
-        //         auth()->user()->temparatures()->update([
-        //             'morning' => $request->morning,
-        //         ]);
-        //     } elseif ($request->has('evenning')) {
-        //         auth()->user()->temparatures()->update([
-        //             'evenning' => $request->evenning,
-        //         ]);
-        //     }
-        // } else {
-        //     auth()->user()->temparatures()->create($request->all());
-        // }
         if ($request->has('morning')) {
             Temparature::updateOrCreate([
                 'user_id' => auth()->user()->id,
@@ -89,7 +101,8 @@ class TemparatureController extends VoyagerBaseController
             return response()->json([
                 'message' => "Record added"
             ]);
-        } else {
+        }
+        else {
             return response()->json([
                 'message' => "Empty Value can not be added"
             ]);

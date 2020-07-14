@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/people/by-room', 'PeopleController@peopleByRoom')->name('people.by-room');
     Route::get('/temparatures/record', 'TemparatureController@record')->name('temparatures.record');
     Route::get('/temparatures/add', 'TemparatureController@add')->name('temparatures.add');
+    Route::post('/temparatures/add', 'TemparatureController@add')->name('temparatures.add');
     Route::post('/temparatures/store', 'TemparatureController@store')->name('temparatures.store');
 
     Voyager::routes();

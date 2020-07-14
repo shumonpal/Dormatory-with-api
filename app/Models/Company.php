@@ -16,8 +16,19 @@ class Company extends Model
     //     });
     // }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function scopeCompanyByUser($query)
     {
-        return $query->where('user_id', auth()->user()->id);
+
+        return $query->with('user')->where(function ($query) {
+            if (auth()->user()->isAdmin()) {
+                return $query;
+            }
+            $query->where('user_id', auth()->user()->id);
+        });
     }
 }

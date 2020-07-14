@@ -80,8 +80,8 @@ function get_data(url, data) {
             if (res.errors) {
                 toastr.error(res.errors);
             }
-            console.log(res);
             $('.ajax-data').html(res);
+
         });
     }
 

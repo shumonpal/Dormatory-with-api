@@ -25,45 +25,53 @@ $add = is_null($dataTypeContent->getKey());
     @include('voyager::alerts')
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-bordered">
-                <div class="panel-body custom-panel-body">
-                    <div class="panel-header">
-                        <form action="{{route('temparatures.add')}}" method="post">
-                            <div class="form-group col-md-4">
-                                <label for="room_id">Select Room</label>
-                                <select name="room_id" class="select2">
-                                    <option value="">Select Room</option>
-                                    @foreach(auth()->user()->rooms as $room)
-                                    <option value="{{$room->id}}">{{$room->room_no}}</option>
-                                    @endforeach
-                                </select>
+            @if (session('errors'))
+            <ul class="alert alert-warning">
+                @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+                @endforeach
+            </ul>
+            @endif
+            <form action="{{route('temparatures.add')}}" method="post">
+                @csrf
+                <div class="panel panel-bordered">
+                    <div class="panel-body">
+                        <div class="form-group col-md-3">
+                            <label for="room_id">Select Room</label>
+                            <select name="room_id" class="select2">
+                                <option value="">Select Room</option>
+                                @foreach(auth()->user()->rooms as $room)
+                                <option value="{{$room->id}}">{{$room->room_no}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="created_at">Select Date</label>
+                            <input type="date" name="created_at" class="form-control"
+                                value="{{\Carbon\Carbon::parse(\Carbon\Carbon::now())->format('Y-d-m')}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="period">Select Period of Day</label>
+                            <select name="period" class="select2">
+                                <option value="">Select Period</option>
+                                <option value="morning">Morning</option>
+                                <option value="evenning">Evenning</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="btn-group" role="group" aria-label="..." style="margin-top:20px">
+                                <button type="Submit" class="btn btn-info get_data_by_form_submit">Show People</button>
+                                <button type="Submit" class="btn btn-warning">PDF <span
+                                        class="glyphicon glyphicon-download" aria-hidden="true"></span></button>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="created_at">Select Date</label>
-                                <input type="date" name="created_at" class="form-control"
-                                    value="{{\Carbon\Carbon::parse(\Carbon\Carbon::now())->format('Y-d-m')}}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="period">Select Period of Day</label>
-                                <select name="period" class="select2">
-                                    <option value="">Select Period</option>
-                                    <option value="morning">Morning</option>
-                                    <option value="evenning">Evenning</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for=""></label>
-                                <input type="Submit" class="form-control btn btn-info get_data_by_form_submit"
-                                    value="Show People">
-                            </div>
-                        </form>
+                            {{-- <label for=""></label>
+                            <input type="Submit" class="btn btn-info get_data_by_form_submit" value="Show People">
+                            <input type="Submit" class="btn btn-info get_data_by_form_submit" value="Download PDF"> --}}
+                        </div>
                     </div>
+                    <div class="panel-body ajax-data"></div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 ajax-data">
+            </form>
         </div>
     </div>
 </div>

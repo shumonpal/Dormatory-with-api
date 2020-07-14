@@ -88,4 +88,14 @@ class User extends \TCG\Voyager\Models\User implements JWTSubject
     {
         return $this->hasMany('\App\Models\Temparature', 'user_id');
     }
+
+    public function role()
+    {
+        return $this->belongsTo('TCG\Voyager\Models\Role', 'role_id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name === 'admin';
+    }
 }

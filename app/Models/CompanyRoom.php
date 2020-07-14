@@ -11,8 +11,11 @@ class CompanyRoom extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('companyRoomByUser', function (Builder $builder) {
-            $builder->where('user_id', auth()->user()->id);
+        static::addGlobalScope('companyRoomByUser', function (Builder $query) {
+            if (auth()->user()->isAdmin()) {
+                return $query;
+            }
+            $query->where('user_id', auth()->user()->id);
         });
     }
 

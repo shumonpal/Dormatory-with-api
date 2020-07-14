@@ -6,7 +6,7 @@
                 <th>#</th>
                 <th>Person Name</th>
                 <th>ID Number</th>
-                <th>Morning</th>
+                <th>{{Str::title($period)}}</th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
                         <input type="hidden" name="created_at" value="{{$date}}">
                         <input type="hidden" name="room_id" value="{{ $person->room_id }}">
                         <input type="hidden" name="people_id" value="{{ $person->id }}">
-                        <input class="form-control add_temp_record" type="number" name="{{$period}}" max="120">
+                        <input class="form-control add_temp_record" type="number" name="{{$period}}">
                     </form>
                 </td>
             </tr>
