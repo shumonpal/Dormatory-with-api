@@ -21,7 +21,7 @@ class TemparatureController extends VoyagerBaseController
             ['room_id', $request->room_id],
         ])->whereDate('created_at', $request->created_at)->with('people')->get();
         if (!$request->expectsJson()) {
-            $room = Room::where('id', $request->room_id)->get()->first()->value('room_no');
+            $room = Room::findOrFail($request->room_id)->room_no;
             $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
             return $pdf->download($room . '_' . date('d-m-Y') . '-temparature.pdf');
         }
@@ -45,9 +45,9 @@ class TemparatureController extends VoyagerBaseController
                 ['user_id', auth()->user()->id],
                 ['room_id', $request->room_id],
             ])->whereDate('created_at', $request->created_at)->with('people')->get();
-            $room = Room::where('id', $request->room_id)->get()->first()->value('room_no');
+            $room = Room::findOrFail($request->room_id)->room_no;
             $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
-            return $pdf->download($room . date('d-m-Y') . '-temparature.pdf');
+            return $pdf->download($room . '_' . date('d-m-Y') . '-temparature.pdf');
         }
         if ($errors->fails()) {
             return response()->json([
