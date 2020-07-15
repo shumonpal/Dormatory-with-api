@@ -27,13 +27,13 @@
             @endforeach
         </tbody>
     </table>
-</div>
+    {{-- </div>
 <div class="form-group col-md-3">
     <div class="btn-group" role="group" aria-label="..." style="margin-top:20px">
         <button type="Submit" class="btn btn-warning">Download PDF <span class="glyphicon glyphicon-download"
                 aria-hidden="true"></span></button>
     </div>
-</div>
+</div> --}}
 </div>
 @else
 <div class="alert alert-warning">No record in this room</div>

@@ -32,11 +32,12 @@ $add = is_null($dataTypeContent->getKey());
                 @endforeach
             </ul>
             @endif
-            <form action="{{route('temparatures.add')}}" method="post">
-                @csrf
-                <div class="panel panel-bordered">
-                    <div class="panel-body">
-                        <div class="form-group col-md-4">
+
+            <div class="panel panel-bordered">
+                <div class="panel-body">
+                    <form action="{{route('temparatures.add')}}" method="post">
+                        @csrf
+                        <div class="form-group col-md-3">
                             <label for="room_id">Select Room</label>
                             <select name="room_id" class="select2">
                                 <option value="">Select Room</option>
@@ -58,15 +59,17 @@ $add = is_null($dataTypeContent->getKey());
                                 <option value="evenning">Evenning</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <div class="btn-group" role="group" aria-label="..." style="margin-top:20px">
                                 <button type="Submit" class="btn btn-info get_data_by_form_submit">Show People</button>
+                                <button type="Submit" class="btn btn-warning">PDF <span
+                                        class="glyphicon glyphicon-download" aria-hidden="true"></span></button>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-body ajax-data"></div>
+                    </form>
                 </div>
-            </form>
+                <div class="panel-body ajax-data"></div>
+            </div>
         </div>
     </div>
 </div>
