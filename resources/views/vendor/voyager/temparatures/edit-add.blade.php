@@ -36,7 +36,7 @@ $add = is_null($dataTypeContent->getKey());
                 @csrf
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="room_id">Select Room</label>
                             <select name="room_id" class="select2">
                                 <option value="">Select Room</option>
@@ -58,15 +58,10 @@ $add = is_null($dataTypeContent->getKey());
                                 <option value="evenning">Evenning</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="btn-group" role="group" aria-label="..." style="margin-top:20px">
                                 <button type="Submit" class="btn btn-info get_data_by_form_submit">Show People</button>
-                                <button type="Submit" class="btn btn-warning">PDF <span
-                                        class="glyphicon glyphicon-download" aria-hidden="true"></span></button>
                             </div>
-                            {{-- <label for=""></label>
-                            <input type="Submit" class="btn btn-info get_data_by_form_submit" value="Show People">
-                            <input type="Submit" class="btn btn-info get_data_by_form_submit" value="Download PDF"> --}}
                         </div>
                     </div>
                     <div class="panel-body ajax-data"></div>
