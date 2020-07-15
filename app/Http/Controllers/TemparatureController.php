@@ -21,9 +21,9 @@ class TemparatureController extends VoyagerBaseController
             ['room_id', $request->room_id],
         ])->whereDate('created_at', $request->created_at)->with('people')->get();
         if (!$request->expectsJson()) {
-            $room = Room::where('id', $request->room_id)->first()->value('room_no');
+            $room = Room::where('id', $request->room_id)->get()->first()->value('room_no');
             $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
-            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
+            return $pdf->download($room . '_' . date('d-m-Y') . '-temparature.pdf');
         }
         return view('ajax.temp.record', compact('records'));
     }
@@ -45,9 +45,9 @@ class TemparatureController extends VoyagerBaseController
                 ['user_id', auth()->user()->id],
                 ['room_id', $request->room_id],
             ])->whereDate('created_at', $request->created_at)->with('people')->get();
-            $room = Room::where('id', $request->room_id)->first()->value('room_no');
+            $room = Room::where('id', $request->room_id)->get()->first()->value('room_no');
             $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
-            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
+            return $pdf->download($room . date('d-m-Y') . '-temparature.pdf');
         }
         if ($errors->fails()) {
             return response()->json([
@@ -58,16 +58,6 @@ class TemparatureController extends VoyagerBaseController
             ['user_id', auth()->user()->id],
             ['room_id', $request->room_id],
         ])->get();
-
-        if (!$request->expectsJson()) {
-            $records = Temparature::where([
-                ['user_id', auth()->user()->id],
-                ['room_id', $request->room_id],
-            ])->whereDate('created_at', $request->created_at)->with('people')->get();
-            $room = Room::where('id', $request->room_id)->first()->value('room_no');
-            $pdf = PDF::loadView('pdf.temp.record', compact('records', 'room'));
-            return $pdf->download(date('d-m-Y') . '-temparature.pdf');
-        }
 
         $date = $request->created_at;
         $period = $request->period;
@@ -101,8 +91,7 @@ class TemparatureController extends VoyagerBaseController
             return response()->json([
                 'message' => "Record added"
             ]);
-        }
-        else {
+        } else {
             return response()->json([
                 'message' => "Empty Value can not be added"
             ]);
